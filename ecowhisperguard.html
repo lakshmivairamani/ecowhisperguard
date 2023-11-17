@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoWhisperGuard Chatbot</title>
+	<link rel="stylesheet" href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css'/>
+	
+	
+	<link rel="stylesheet" href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'/>
+	<script src='https://code.jquery.com/jquery-3.3.1.slim.min.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js'></script>
+    
+<style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+      padding: 0;
+      
+      
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(to right, #3498db, #2ecc71);
+        }
+
+        #chatbox {
+            border: 1px solid #ccc;
+            padding: 10px;
+            max-height: 800px;
+            overflow-y: scroll;
+			width:500px;
+        }
+
+    </style>
+</head>
+<body>
+<img src="https://www.ponvidyashram.in/wp-content/themes/ponvidyashram/images/logo-final.jpg" style="padding-left: 390px" ><br><br><h1 style="text-align: center;color:White"><b>EcoWhisperGuard</b></h1><br>
+<div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <textarea id="chatbox" style="left:100px;overscroll-behavior-y: auto;height:250px">Welcome to chatbot. Please ask your questions</textarea>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://tse2.mm.bing.net/th?id=OIP._5p8p-jFnMtZ5KXmeTequQHaFj&pid=Api&P=0&h=180"  style="vertical-align: top;height:250px"></div>
+	<br>
+    <div id="inputBox">
+	
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <button class="btn btn-warning " onclick="startListening()" >Start Voice Input&nbsp<i class="fa fa-paper-plane"></i></button>
+    </div>
+	
+    <script>
+	
+        // Your predefined questions and answers
+        const qaData = [
+            { question: "why is proper garbage disposal important for environmental health", answer: "Inadequate disposal can lead to pollution, soil degradation, and harm to ecosystems." },
+            { question: "what is the significance of recycling in waste management", answer: "Recycling reduces resource depletion and minimizes the environmental impact of waste." },
+            { question: "how does illegal dumping contribute to environmental degradation", answer: "Illegal dumping contaminates soil, water, and air, posing threats to wildlife and human health." },
+            { question: "what role do landfills play in modern waste disposal practices", answer: "Landfills are engineered sites designed to contain and manage waste while minimizing environmental impacts." },
+            { question: "how can individuals reduce their ecological footprint in garbage disposal", answer: "Adopting sustainable practices, such as composting and reducing single-use items, helps minimize environmental impact." },
+            { question: "what challenges do developing countries face in managing their waste disposal systems", answer: "Limited resources, infrastructure, and awareness often hinder effective waste management in developing nations." },
+            { question: "why is it crucial to address electronic waste responsibly", answer: "E-waste contains hazardous materials, and improper disposal can lead to soil and water pollution, endangering both the environment and human health." },
+            { question: "Hi", answer: "Hi! Greetings from Ponvidyashram. I'm your friendly chat-bot ready to tackle any questions you have about environmental science." },
+        ];
+
+        const chatbox = document.getElementById('chatbox');
+
+        const recognition = new window.webkitSpeechRecognition(); // Create a speech recognition instance
+        recognition.continuous = false; // Set to false for single recognition, true for continuous
+        recognition.lang = 'en-US'; // Set the language
+		
+        recognition.onresult = function(event) {
+            const transcript = event.results[0][0].transcript;
+            displayMessage(transcript, 'user');
+            processUserMessage(transcript);
+        };
+
+        recognition.onerror = function(event) {
+            alert('Voice recognition error. Please try again.');
+        };
+
+        function startListening() {
+            recognition.start();
+        }
+
+        function displayMessage(message, sender) {
+            const messageElement = document.createElement('div');
+            messageElement.className = sender === 'user' ? 'user-message' : 'bot-message';
+            messageElement.textContent = message;
+            chatbox.appendChild(messageElement);
+			const textarea = document.getElementById('chatbox');
+
+			// ✅ Append text
+			textarea.value += '\n';
+			textarea.value += message;
+        }
+
+        function processUserMessage(message) {
+            // Process the user's message and generate a response
+            // For simplicity, we'll just check if the question is predefined
+            const matchedQuestion = qaData.find(qa => message.toLowerCase().includes(qa.question.toLowerCase()));
+            const response = matchedQuestion ? matchedQuestion.answer : "I'm sorry, I don't understand that question.";
+            displayMessage(response, 'bot');
+            speak(response);
+        }
+
+        function speak(text) {
+		
+            const synth = window.speechSynthesis;
+            const utterance = new SpeechSynthesisUtterance(text);
+            synth.speak(utterance);
+			
+        }
+		function myFunction()
+		{
+		
+		speak("Hey there! I'm your smart chat-bot ready to tackle any questions you have about environmental science. Ask away, and let's dive into the world of eco-friendly knowledge together!");
+		}
+    </script>
+ 
+</body>
+</html>
